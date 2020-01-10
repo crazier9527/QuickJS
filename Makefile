@@ -34,6 +34,10 @@ CONFIG_LTO=y
 # force 32 bit build for some utilities
 #CONFIG_M32=y
 
+ifeq ($(shell uname -m),armv7l)
+CONFIG_ARMV7=y
+endif
+
 ifdef CONFIG_DARWIN
 # use clang instead of gcc
 CONFIG_CLANG=y
@@ -160,6 +164,10 @@ QJS_OBJS=$(OBJDIR)/qjs.o $(OBJDIR)/repl.o $(OBJDIR)/qjscalc.o $(QJS_LIB_OBJS)
 LIBS=-lm
 ifndef CONFIG_WIN32
 LIBS+=-ldl
+endif
+
+ifdef CONFIG_ARMV7
+LIBS+=-latomic
 endif
 
 $(OBJDIR):
